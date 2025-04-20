@@ -1,0 +1,100 @@
++-----------------------------+
+|           Book             |
++-----------------------------+
+| - ISBN: String             |
+| - title: String            |
+| - author: String           |
+| - publisher: String        |
+| - genre: String            |
++-----------------------------+
+| +getISBN(): String         |
+| +getTitle(): String        |
+| +getAuthor(): String       |
+| +getPublisher(): String    |
+| +getGenre(): String        |
++-----------------------------+
+
+          ▲
+          |
+          | has-a
+          |
++-----------------------------+
+|          BookItem          |
++-----------------------------+
+| - barcode: String          |
+| - book: Book               |
+| - status: BookStatus       |
+| - dueDate: Date            |
++-----------------------------+
+| +checkout(dueDate: Date)   |
+| +markAvailable()           |
+| +getStatus(): BookStatus   |
+| +getDueDate(): Date        |
++-----------------------------+
+
++-----------------------------+
+|         <<enum>>           |
+|         BookStatus         |
++-----------------------------+
+| AVAILABLE                  |
+| BORROWED                   |
+| RESERVED                   |
+| LOST                       |
++-----------------------------+
+
++-----------------------------+
+|          <<enum>>          |
+|          UserRole          |
++-----------------------------+
+| MEMBER                     |
+| LIBRARIAN                  |
++-----------------------------+
+
++-----------------------------+
+|          User (abstract)   |
++-----------------------------+
+| - id: String               |
+| - name: String             |
+| - email: String            |
++-----------------------------+
+| +getRole(): UserRole       |
++-----------------------------+
+          ▲
+     ______|______
+     |           |
+     |           |
++-----------------------------+        +-------------------------------+
+|           Member            |        |          Librarian            |
++-----------------------------+        +-------------------------------+
+| - borrowedBooks: List<BookItem> |    |                               |
+| - reservedBooks: List<BookItem> |    |                               |
++-----------------------------+        +-------------------------------+
+| +canBorrowMore(): boolean   |        | +addBook(...)                 |
+| +borrowBook(BookItem)       |        | +removeBook(...)              |
+| +returnBook(BookItem)       |        +-------------------------------+
+| +reserveBook(BookItem)      |
++-----------------------------+
+
++-----------------------------+
+|           Library           |
++-----------------------------+
+| - booksByISBN: Map<String, Book>                |
+| - bookCopiesByISBN: Map<String, List<BookItem>> |
++-----------------------------+
+| +addBook(book, items)       |
+| +removeBook(item)           |
+| +getAvailableCopies(isbn)   |
++-----------------------------+
+
++-----------------------------+
+|           Catalog           |
++-----------------------------+
+| - booksByTitle: Map<String, List<Book>>         |
+| - booksByAuthor: Map<String, List<Book>>        |
+| - booksByGenre: Map<String, List<Book>>         |
++-----------------------------+
+| +addBook(Book)              |
+| +searchByTitle(String)      |
+| +searchByAuthor(String)     |
+| +searchByGenre(String)      |
++-----------------------------+
